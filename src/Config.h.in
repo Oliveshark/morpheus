@@ -1,0 +1,7 @@
+#pragma once
+
+#define APP_TITLE		"@morpheus_TITLE@"
+#define MAJOR_VERSION	@morpheus_MAJOR_VERSION@
+#define MINOR_VERSION	@morpheus_MINOR_VERSION@
+#define PATCH_VERSION	@morpheus_PATCH_VERSION@
+#define RELEASE_TYPE	"@morpheus_RELEASE_TYPE@"

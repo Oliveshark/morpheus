@@ -1,0 +1,6 @@
+[submodule "ECS"]
+	path = ECS
+	url = https://github.com/liquidityc/ECS
+[submodule "box2d"]
+	path = box2d
+	url = https://github.com/erincatto/box2d
