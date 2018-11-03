@@ -4,6 +4,8 @@ SET(CMAKE_COLOR_MAKEFILE ON)
 
 project(morpheus CXX)
 
+add_definitions(-Wno-shadow)
+
 set(morpheus_TITLE "Morpheus")
 set(morpheus_MAJOR_VERSION 0)
 set(morpheus_MINOR_VERSION 0)
@@ -14,6 +16,7 @@ include(mk/cmake/FindSDL2.cmake)
 include(mk/cmake/FindSDL2_image.cmake)
 include(mk/cmake/FindCCache.cmake)
 include(mk/cmake/Findcppcheck.cmake)
+include(mk/cmake/FindBox2D.cmake)
 
 macro(set_option option value)
 	set(${option} ${value} CACHE INTERNAL "" FORCE)
@@ -27,14 +30,16 @@ set(ECS_INCLUDE_DIR "ECS/src")
 set(ECS_LIBRARY "ecs")
 
 # Load Box2D
-set_option(BOX2D_INSTALL off)
-set_option(BOX2D_INSTALL_DOC off)
-set_option(BOX2D_BUILD_SHARED off)
-set_option(BOX2D_BUILD_STATIC on)
-set_option(BOX2D_BUILD_EXAMPLES off)
-add_subdirectory(box2d/Box2D)
-set(BOX2D_INCLUDE_DIR "box2d/Box2D/Box2D")
-set(BOX2D_LIBRARY "Box2D")
+if (NOT BOX2D_FOUND)
+	set_option(BOX2D_INSTALL off)
+	set_option(BOX2D_INSTALL_DOC off)
+	set_option(BOX2D_BUILD_SHARED off)
+	set_option(BOX2D_BUILD_STATIC on)
+	set_option(BOX2D_BUILD_EXAMPLES off)
+	add_subdirectory(box2d/Box2D)
+	set(BOX2D_INCLUDE_DIR "box2d/Box2D")
+	set(BOX2D_LIBRARY "Box2D")
+endif()
 
 configure_file(
 	"${PROJECT_SOURCE_DIR}/src/Config.h.in"
@@ -54,10 +59,25 @@ set(CMAKE_CXX_FLAGS_DEBUG
 	"${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -fsanitize=address -fno-omit-frame-pointer -pedantic -Wall -Wextra -Wshadow -Wpointer-arith -Wcast-qual -Wconversion -Wno-sign-conversion"
 	)
 
+set(sources
+	src/Main.cpp
+	src/Texture.cpp
+	src/Timer.cpp
+	src/Update.cpp
+	)
+
+set(headers
+	src/Texture.h
+	src/Timer.h
+	src/Update.h
+	src/Vector2.h
+	src/Entity.h
+	src/Component.h
+	)
+
 add_executable(morpheus
-	src/Main
-	src/Texture
-	src/Timer
+	${sources}
+	${headers}
 	)
 
 target_link_libraries(morpheus

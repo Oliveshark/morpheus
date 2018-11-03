@@ -1,4 +1,6 @@
 -std=c++17
 -DDEBUG
 -I/usr/include/SDL2/
+-I./box2d/Box2D/
+-I./ECS/src/
 -include./build/debug/Config.h

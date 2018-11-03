@@ -4,6 +4,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <Box2D/Box2D.h>
+
 #include "Config.h"
 #include "Timer.h"
 
@@ -64,6 +66,38 @@ static void close()
 static int
 gameLoop()
 {
+	// Box2D world
+	b2Vec2 gravity(0.0f, -10.0f);
+	b2World world(gravity);
+
+	// Box2D ground
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0.0f, -10.0f);
+
+	b2Body *groundBody = world.CreateBody(&groundBodyDef);
+	b2PolygonShape groundBox;
+	groundBox.SetAsBox(50.0f, 10.0f);
+	groundBody->CreateFixture(&groundBox, 10.0f);
+
+	// Box2D box
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(0.0f, 4.0f);
+	b2Body *body = world.CreateBody(&bodyDef);
+	b2PolygonShape dynamicBox;
+	dynamicBox.SetAsBox(1.0f, 1.0f);
+
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &dynamicBox;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.3f;
+
+	body->CreateFixture(&fixtureDef);
+	
+	float timestep = 1.0f/60.0f;
+	int velocityIteration = 6;
+	int positionIterations = 2;
+
 	Timer capTimer;
 	bool quit = false;
 
@@ -80,6 +114,11 @@ gameLoop()
 		}
 		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(gRenderer);
+
+		world.Step(timestep, velocityIteration, positionIterations);
+		b2Vec2 position = body->GetPosition();
+		float angle = body->GetAngle();
+		printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
 
 		// TODO: Game code
 

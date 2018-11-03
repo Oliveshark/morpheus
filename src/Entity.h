@@ -2,8 +2,8 @@
 
 #include <ECS.h>
 #include "Update.h"
-#include "Message.h"
 
-class Entity : public ECS::Entity<Update, Message>
+template<typename T>
+class Entity : public ECS::Entity<Update, T>
 {
 };
