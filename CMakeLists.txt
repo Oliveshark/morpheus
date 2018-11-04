@@ -64,6 +64,8 @@ set(sources
 	src/Texture.cpp
 	src/Timer.cpp
 	src/Update.cpp
+	src/Entity.cpp
+	src/Stage.cpp
 	)
 
 set(headers
@@ -73,6 +75,7 @@ set(headers
 	src/Vector2.h
 	src/Entity.h
 	src/Component.h
+	src/Stage.h
 	)
 
 add_executable(morpheus
