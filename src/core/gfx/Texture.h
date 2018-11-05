@@ -3,7 +3,7 @@
 #include <string>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Dimension.h"
+#include "../struct/Dimension.h"
 
 class Texture
 {

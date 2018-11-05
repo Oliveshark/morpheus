@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <Box2D/Box2D.h>
 
-#include "Input.h"
+#include "../input/Input.h"
 
 class Update
 {

@@ -48,6 +48,7 @@ configure_file(
 
 include_directories(
 	${PROJECT_BINARY_DIR}
+	${PROJECT_SOURCE_DIR}
 	${SDL2_INCLUDE_DIR}
 	${SDL2_IMAGE_INCLUDE_DIR}
 	${ECS_INCLUDE_DIR}
@@ -60,22 +61,25 @@ set(CMAKE_CXX_FLAGS_DEBUG
 	)
 
 set(sources
+	src/core/gfx/Texture.cpp
+	src/core/ecs/Update.cpp
+	src/core/ecs/Entity.cpp
+	src/core/ecs/Message.cpp
+	src/core/struct/Stage.cpp
+	src/core/util/Timer.cpp
 	src/Main.cpp
-	src/Texture.cpp
-	src/Timer.cpp
-	src/Update.cpp
-	src/Entity.cpp
-	src/Stage.cpp
 	)
 
 set(headers
-	src/Texture.h
-	src/Timer.h
-	src/Update.h
-	src/Vector2.h
-	src/Entity.h
-	src/Component.h
-	src/Stage.h
+	src/core/ecs/Update.h
+	src/core/ecs/Entity.h
+	src/core/ecs/Component.h
+	src/core/ecs/Message.h
+	src/core/struct/Vector2.h
+	src/core/struct/Stage.h
+	src/core/struct/Dimension.h
+	src/core/gfx/Texture.h
+	src/core/util/Timer.h
 	)
 
 add_executable(morpheus

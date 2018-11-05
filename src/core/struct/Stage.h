@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-#include "Entity.h"
+#include "../ecs/Entity.h"
 
 class Stage
 {

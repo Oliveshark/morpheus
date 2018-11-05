@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL.h>
-#include "Vector2.h"
+#include "../struct/Vector2.h"
 
 #define K_PLUS		0x01
 #define K_MINUS		0x02
