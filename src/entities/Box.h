@@ -3,9 +3,9 @@
 #include <SDL.h>
 #include <Box2D/Box2D.h>
 
-#include "Entity.h"
+#include "../core/ecs/Entity.h"
 
-class Box : public Entity<int>
+class Box : public Entity
 {
 
 	public:

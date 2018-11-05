@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Component.h"
+#include "../core/ecs/Component.h"
+#include "../core/ecs/Update.h"
+#include "../core/ecs/Message.h"
 
 class PhysicsComponent : public Component
 {
@@ -12,5 +14,5 @@ class PhysicsComponent : public Component
 
 		void update(const Update&) override;
 
-		void receive(const std::string&) override;
+		void receive(const Message&) override;
 };

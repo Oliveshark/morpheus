@@ -60,17 +60,16 @@ set(CMAKE_CXX_FLAGS_DEBUG
 	"${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -fsanitize=address -fno-omit-frame-pointer -pedantic -Wall -Wextra -Wshadow -Wpointer-arith -Wcast-qual -Wconversion -Wno-sign-conversion"
 	)
 
-set(sources
+set(core_src
 	src/core/gfx/Texture.cpp
 	src/core/ecs/Update.cpp
 	src/core/ecs/Entity.cpp
 	src/core/ecs/Message.cpp
 	src/core/struct/Stage.cpp
 	src/core/util/Timer.cpp
-	src/Main.cpp
 	)
 
-set(headers
+set(core_hdr
 	src/core/ecs/Update.h
 	src/core/ecs/Entity.h
 	src/core/ecs/Component.h
@@ -82,9 +81,22 @@ set(headers
 	src/core/util/Timer.h
 	)
 
+set(game_src
+	src/Main.cpp
+	src/entities/Box.cpp
+	src/components/PhysicsComponent.cpp
+	)
+
+set(game_hdr
+	src/entities/Box.h
+	src/components/PhysicsComponent.h
+	)
+
 add_executable(morpheus
-	${sources}
-	${headers}
+	${core_src}
+	${core_hdr}
+	${game_src}
+	${game_hdr}
 	)
 
 target_link_libraries(morpheus
