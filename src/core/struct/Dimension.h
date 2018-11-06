@@ -1,4 +1,9 @@
-struct Dimension
+template<typename T>
+class Dimension
 {
-	uint32_t w, h;
+	public:
+		T w, h;
+
+		Dimension(T dw, T dh) : w(dw), h(dh) { };
+		Dimension() : Dimension(0, 0) { };
 };

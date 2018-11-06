@@ -2,6 +2,7 @@
 
 #include <map>
 #include "../ecs/Entity.h"
+#include "../ecs/Update.h"
 
 class Stage
 {
@@ -18,9 +19,13 @@ class Stage
 		};
 
 	public:
+		Stage() { };
+
 		~Stage();
 
 		void addEntity(Entity*);
 
 		void removeEntity(EntityID);
+
+		void update(const Update&);
 };

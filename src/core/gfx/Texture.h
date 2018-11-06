@@ -9,7 +9,7 @@ class Texture
 {
 	private:
 		SDL_Texture *texture = nullptr;
-		Dimension dim = { 0, 0 }; 
+		Dimension<uint32_t> dim;
 
 	public:
 		bool loadFromFile(const std::string& path, SDL_Renderer *renderer);

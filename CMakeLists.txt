@@ -67,6 +67,7 @@ set(core_src
 	src/core/ecs/Message.cpp
 	src/core/struct/Stage.cpp
 	src/core/util/Timer.cpp
+	src/core/input/Input.cpp
 	)
 
 set(core_hdr
@@ -79,17 +80,20 @@ set(core_hdr
 	src/core/struct/Dimension.h
 	src/core/gfx/Texture.h
 	src/core/util/Timer.h
+	src/core/input/Input.h
 	)
 
 set(game_src
 	src/Main.cpp
 	src/entities/Box.cpp
 	src/components/PhysicsComponent.cpp
+	src/components/RectangleDrawComponent.cpp
 	)
 
 set(game_hdr
 	src/entities/Box.h
 	src/components/PhysicsComponent.h
+	src/components/RectangleDrawComponent.h
 	)
 
 add_executable(morpheus

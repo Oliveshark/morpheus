@@ -1,37 +1,15 @@
 #include "Input.h"
 
-static int getKey(const SDL_Event& event)
-{
-	if (event.key.keysym.mod == KMOD_NONE) {
-		switch (event.key.keysym.sym) {
-			case SDLK_LEFT:
-				return K_LEFT;
-			case SDLK_RIGHT:
-				return K_RIGHT;
-			case SDLK_PLUS:
-				return K_PLUS;
-			case SDLK_MINUS:
-				return K_MINUS;
-			default:
-				break;
-		}
-	}
-	if (event.key.keysym.mod & KMOD_CTRL) {
-		switch (event.key.keysym.sym) {
-			case SDLK_PLUS:
-				return K_C_PLUS;
-			case SDLK_MINUS:
-				return K_C_MINUS;
-			default:
-				break;
-		}
-	}
-	return 0;
-}
-
 void Input::reset()
 {
 	lastKeys = currentKeys;
+}
+
+void Input::setKey(uint32_t key, bool down)
+{
+	currentKeys[key] = down;
+	if (lastKeys.find(key) == lastKeys.end())
+		lastKeys[key] = false;
 }
 
 void Input::handleEvent(const SDL_Event& event)
@@ -42,23 +20,29 @@ void Input::handleEvent(const SDL_Event& event)
 	}
 
 	if (event.type == SDL_KEYDOWN) {
-		currentKeys |= getKey(event);
+		setKey(event.key.keysym.sym, true);
 	} else if (event.type == SDL_KEYUP) {
-		currentKeys &= ~getKey(event);
+		setKey(event.key.keysym.sym, false);
 	}
 }
 
-bool Input::isDown(uint32_t key) const
+bool Input::isDown(uint32_t key) const try
 {
-	return key & currentKeys;
+	return currentKeys.at(key);
+} catch (...) {
+	return false;
 }
 
-bool Input::isPressed(uint32_t key) const
+bool Input::isPressed(uint32_t key) const try
 {
-	return !(key & lastKeys) && key & currentKeys;
+	return currentKeys.at(key) && !lastKeys.at(key);
+} catch (...) {
+	return false;
 }
 
-bool Input::isReleased(uint32_t key) const
+bool Input::isReleased(uint32_t key) const try
 {
-	return key & lastKeys && !(key & currentKeys);
+	return !currentKeys.at(key) && lastKeys.at(key);
+} catch (...) {
+	return false;
 }

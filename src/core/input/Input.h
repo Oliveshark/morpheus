@@ -1,24 +1,20 @@
 #pragma once
 
 #include <SDL.h>
+#include <map>
 #include "../struct/Vector2.h"
-
-#define K_PLUS		0x01
-#define K_MINUS		0x02
-#define K_C_PLUS	0x04
-#define K_C_MINUS	0x08
-#define K_RIGHT		0x10
-#define K_LEFT		0x20
 
 class Input
 {
 	private:
-		int64_t lastKeys = 0,
-				currentKeys = 0;
+		std::map<uint32_t, bool> lastKeys, currentKeys;
 
 	public:
 		SDL_Renderer *renderer = nullptr;
 		Vector2<int> mousePosition = Vector2(0, 0);	
+
+	private:
+		void setKey(uint32_t key, bool down);
 
 	public:
 		Input() { }

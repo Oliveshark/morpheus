@@ -7,7 +7,7 @@
 
 class Box : public Entity
 {
-
 	public:
-		static Box* createBox(const SDL_Rect& box, SDL_Color color);
+		static Box* createBox(const Update&);
+		static Box* createFixedBox(const Update&);
 };

@@ -24,5 +24,7 @@ class Message
 
 		MessageType getType() const;
 
+		const MessageData* getData() const;
+
 		MessageData* getData();
 };

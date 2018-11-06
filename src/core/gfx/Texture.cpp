@@ -8,7 +8,6 @@ Texture::loadFromFile(const std::string& path, SDL_Renderer *renderer)
 	if (texture) {
 		SDL_DestroyTexture(texture);
 		texture = nullptr;
-		dim = { 0, 0 };
 	}
 
 	//Load image at specified path
