@@ -4,8 +4,6 @@
 
 void PhysicsComponent::update(const Update& update)
 {
-	(void) update;
-
 	b2Vec2 position = body->GetPosition();
 	if (xpos != position.x || ypos != position.y) {
 		Message msg(MSG_POSITION_UPDATE);
@@ -18,6 +16,12 @@ void PhysicsComponent::update(const Update& update)
 		std::cout << "Pos: " << static_cast<int>(xpos * PPM)
 			<< " x " << -static_cast<int>(ypos * PPM)
 			<< " * " << angle << std::endl;
+
+		b2Vec2 center = body->GetWorldCenter();
+		std::cout << "Center: "
+			<< center.x
+			<< " - "
+			<< center.y << std::endl;
 	}
 
 	if (update.input->isPressed(SDLK_SPACE)) {
