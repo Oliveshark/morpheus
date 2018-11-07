@@ -2,26 +2,41 @@
 #include <Box2D/Box2D.h>
 #include "PhysicsComponent.h"
 
+PhysicsComponent::PhysicsComponent(int x,
+								   int y,
+								   int w,
+								   int h) :
+	renderPos(x, y),
+	renderDim(w, h)
+{
+	worldDim.w = static_cast<float>(renderDim.w)/PPM;
+	worldDim.h = static_cast<float>(renderDim.h)/PPM;
+
+	worldPos.x = static_cast<float>(renderPos.x + renderDim.w/2)/PPM;
+	worldPos.y = -static_cast<float>(renderPos.y + renderDim.h/2)/PPM;
+
+}
+
+Vector2<int> PhysicsComponent::asRenderPos(const Vector2<float>& wp)
+{
+	Vector2<float> pos(wp.x*PPM, -wp.y*PPM);
+	pos.x -= static_cast<float>(renderDim.w)/2;
+	pos.y -= static_cast<float>(renderDim.h)/2;
+	return Vector2<int>(static_cast<int>(pos.x), static_cast<int>(pos.y));
+}
+
 void PhysicsComponent::update(const Update& update)
 {
 	b2Vec2 position = body->GetPosition();
-	if (xpos != position.x || ypos != position.y) {
+	if (worldPos.x != position.x || worldPos.y != position.y) {
 		Message msg(MSG_POSITION_UPDATE);
-		xpos = position.x;
-		ypos = position.y;
-		msg.getData()->position.x = (int) (xpos * PPM);
-		msg.getData()->position.y = (int) -(ypos * PPM);
+		worldPos.x = position.x;
+		worldPos.y = position.y;
+		std::cout << "World position: " << worldPos << std::endl;
+		renderPos = asRenderPos(worldPos);
+		std::cout << "Render position: " << renderPos << std::endl;
+		msg.getData()->position = renderPos;
 		entity->transmit(msg);
-		float angle = body->GetAngle();
-		std::cout << "Pos: " << static_cast<int>(xpos * PPM)
-			<< " x " << -static_cast<int>(ypos * PPM)
-			<< " * " << angle << std::endl;
-
-		b2Vec2 center = body->GetWorldCenter();
-		std::cout << "Center: "
-			<< center.x
-			<< " - "
-			<< center.y << std::endl;
 	}
 
 	if (update.input->isPressed(SDLK_SPACE)) {
@@ -41,4 +56,15 @@ void PhysicsComponent::update(const Update& update)
 void PhysicsComponent::receive(const Message& message)
 {
 	(void) message;
+}
+
+void PhysicsComponent::buildBox(b2World *world)
+{
+	bodyDef.position.Set(worldPos.x, worldPos.y);
+	body = world->CreateBody(&bodyDef);
+	shape.SetAsBox(worldDim.w/2, worldDim.h/2);
+
+	fixtureDef.shape = &shape;
+
+	body->CreateFixture(&fixtureDef);
 }

@@ -118,7 +118,8 @@ gameLoop()
 
 	Stage stage;
 	stage.addEntity(Box::createBox(update));
-	stage.addEntity(Box::createFixedBox(update));
+	stage.addEntity(Box::createFixedBox(update, 120, 236, 140, 32));
+	stage.addEntity(Box::createFixedBox(update, 40, 268, 320, 32));
 
 	SDL_Event event;
 	while (!quit) {

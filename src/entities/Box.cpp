@@ -1,53 +1,40 @@
 #include "Box.h"
 #include "../components/PhysicsComponent.h"
 #include "../components/RectangleDrawComponent.h"
+#include "../core/struct/Vector2.h"
 
 Box* Box::createBox(const Update& update)
 {
-	(void) update;
+	Vector2<int> pos(60, 10);
+	Dimension<int> dim(32, 32);
 
 	Box *box = new Box();
-	box->addComponent(new RectangleDrawComponent(10, 10, 32, 32));
+	box->addComponent(new RectangleDrawComponent(pos, dim));
 
-	int x = 40, y = 10;
-
-	float centerx = static_cast<float>(x + 32/2);
-	float centery = static_cast<float>(y + 32/2);
-
-	PhysicsComponent *pc = new PhysicsComponent();
+	PhysicsComponent *pc = new PhysicsComponent(pos, dim);
 	pc->bodyDef.type = b2_dynamicBody;
-	pc->bodyDef.position.Set(centerx/PPM, -centery/PPM);
-	pc->body = update.world->CreateBody(&pc->bodyDef);
-	pc->shape.SetAsBox((32/2)/PPM, (32/2)/PPM);
-
-	pc->fixtureDef.shape = &pc->shape;
 	pc->fixtureDef.density = 1.0f;
 	pc->fixtureDef.friction = 0.3f;
-
-	pc->body->CreateFixture(&pc->fixtureDef);
+	pc->buildBox(update.world);
 	box->addComponent(pc);
 
 	return box;
 }
 
-Box* Box::createFixedBox(const Update& update)
+Box* Box::createFixedBox(const Update& update,
+						 int x,
+						 int y,
+						 int w,
+						 int h)
 {
-	(void) update;
-
-	int x = 40, y = 268;
-
-	float centerx = static_cast<float>(x + 320/2);
-	float centery = static_cast<float>(y + 32/2);
+	Vector2<int> pos(x, y);
+	Dimension<int> dim(w, h);
 
 	Box *box = new Box();
-	box->addComponent(new RectangleDrawComponent(x, y, 320, 32));
+	box->addComponent(new RectangleDrawComponent(pos, dim));
 
-	PhysicsComponent *pc = new PhysicsComponent();
-	pc->bodyDef.position.Set(centerx/PPM, -centery/PPM);
-	pc->body = update.world->CreateBody(&pc->bodyDef);
-	pc->shape.SetAsBox((320/2)/PPM, (32/2)/PPM);
-
-	pc->body->CreateFixture(&pc->shape, 10.0f);
+	PhysicsComponent *pc = new PhysicsComponent(pos, dim);
+	pc->buildBox(update.world);
 	box->addComponent(pc);
 
 	return box;

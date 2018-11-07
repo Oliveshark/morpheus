@@ -16,6 +16,10 @@ class RectangleDrawComponent : public Component
 			pos(x, y),
 			dim(w, h) { };
 
+		RectangleDrawComponent(const Vector2<int>& pos,
+							   const Dimension<int>& dim) :
+			RectangleDrawComponent(pos.x, pos.y, dim.w, dim.h) { };
+
 		void update(const Update&) override;
 
 		void receive(const Message&) override;
