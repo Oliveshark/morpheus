@@ -67,6 +67,7 @@ set(core_src
 	src/core/ecs/Message.cpp
 	src/core/struct/Stage.cpp
 	src/core/util/Timer.cpp
+	src/core/util/IdGenerator.cpp
 	src/core/input/Input.cpp
 	)
 
@@ -80,6 +81,7 @@ set(core_hdr
 	src/core/struct/Dimension.h
 	src/core/gfx/Texture.h
 	src/core/util/Timer.h
+	src/core/util/IdGenerator.h
 	src/core/input/Input.h
 	)
 
