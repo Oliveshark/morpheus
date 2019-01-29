@@ -51,7 +51,10 @@ static bool initSDL()
 								300,
 								SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
-	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	gRenderer = SDL_CreateRenderer(gWindow, -1,
+								   SDL_RENDERER_ACCELERATED
+								   | SDL_RENDERER_PRESENTVSYNC
+								   | SDL_RENDERER_TARGETTEXTURE);
 
 	return true;
 }
@@ -74,34 +77,6 @@ gameLoop()
 	b2Vec2 gravity(0.0f, -30.0f);
 	b2World world(gravity);
 
-	// Box2D ground
-	/*
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(10.0f, -300.0f);
-
-	b2Body *groundBody = world.CreateBody(&groundBodyDef);
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(50.0f, 1.0f);
-	groundBody->CreateFixture(&groundBox, 10.0f);
-	*/
-
-	// Box2D box
-	/*
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(0.0f, 60/20);
-	b2Body *body = world.CreateBody(&bodyDef);
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(1.0f, 1.0f);
-
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
-
-	body->CreateFixture(&fixtureDef);
-	*/
-	
 	float timestep = 1.0f/60.0f;
 	int velocityIteration = 6;
 	int positionIterations = 2;
